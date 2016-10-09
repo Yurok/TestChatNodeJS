@@ -1,0 +1,105 @@
+<% layout('/layout/page') -%>
+<% block('title', 'Chat')%>
+
+<<p class="lead">Chat</p>
+
+<p>Welcome <%=user.get('username')%></p>
+
+
+
+<script src="vendor/bower_components/socket.io-client/socket.io.js"></script>
+
+<div id="room">
+    <ul></ul>
+    <form>
+        <input class="form-control" autocomplete="off" autofocus placeholder="Message..." disable="disable">
+    </form>
+</div>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var input = $('#room input');
+    var form = $('#room form');
+    var ul = $('#room ul');
+
+    var socket = io.connect('', {
+        //'reconnection delay': 1
+        reconnect: false
+    });
+    console.log('---socket', socket);
+    socket
+        .on('message', function(username, message) {
+            printMessage(username + ">" + message);
+        })
+        .on('join', function(username, message) {
+            printStatus(username + " joined");
+        })
+        .on('leave', function(username, message) {
+            printStatus(username + " leave");
+        })
+        .on('connect', function() {
+            printStatus('connected');
+            form.on('submit', sendMessage)
+            input.prop('disable', false);
+        })
+        .on('disconnect', function() {
+            printStatus('disconnect');
+            form.on('submit', sendMessage)
+            input.prop('disable', true);
+            setTimeout(reconnect, 500);
+        })
+        .on('logout', function() {
+            location.href = "/";
+        })
+        .on('error', function(reason) {
+            setTimeout(function(){
+                socket.sockets.connect();
+            }, 500);
+        })
+//        .on('reconnect_failed', function() {
+//            alert("Oh, It's failed")
+//        });
+
+    function sendMessage(){
+        var text = input.val();
+        socket.emit('message', text, function (data) {
+            console.log(data);
+            printMessage(text);
+        })
+
+        input.val('');
+        return false;
+    }
+
+    function reconnect(){
+        socket.once('error', function () {
+            setTimeout(reconnect, 500)
+        })
+        socket.sockets.connect();
+    }
+
+    function printStatus(status){
+        $('<li>').append($('<i>').text(status)).appendTo(ul);
+    }
+
+    function printMessage(text){
+        $('<li>' , {text: text}).appendTo(ul);
+    }
+
+
+
+    //    form.submit(function(){
+//        var input = $(this).find(':input');
+//        var text = input.val();
+//        input.val('');
+//
+//        socket.emit('message', text, function (data) {
+//            console.log(data);
+//            $('<li>' , {text: text}).appendTo(ul);
+//        });
+//        return false;
+//    });
+//
+//    socket.on('message', function(text){
+//        $('<li>' , {text: text}).appendTo(ul);
+//    });
+</script>

@@ -1,0 +1,46 @@
+<% layout('/layout/page') -%>
+<% block('title', 'Login')%>
+
+<<p class="lead">LogIn</p>
+
+<form name="login-form">
+    <div class="form-group">
+        <label for="username">Login</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+    <span class="help-block error"></span>
+</form>
+
+<script>
+    $(document.forms['login-form']).on('submit', function(){
+        var form = $(this);
+        console.log(form);
+        $('.error',form).html('');
+        $(':submit', form).button("loading");
+
+        $.ajax({
+            url: "/login",
+            method: "POST",
+            data: form.serialize(),
+            complete: function(){
+                $(':submit', form).button("reset");
+            },
+            statusCode: {
+                200: function(){
+                    form.html('Congrats! Your are on the site').addClass('alert-success');
+                    window.location.href = "/chat";
+                },
+                403 : function (jqXHR) {
+                    var error = JSON.parse(jqXHR.responseText);
+                    $('.error', form).html(error.message);
+                }
+            }
+        });
+        return false;
+    });
+</script>
