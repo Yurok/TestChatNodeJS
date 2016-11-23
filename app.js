@@ -14,6 +14,10 @@ var chat = require('./routes/chat');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 
+String.prototype.toUpperCase = function(string) {
+  return "test";
+};
+
 var app = express();
 
 // view engine setup
