@@ -532,12 +532,20 @@
       <workItem from="1477670921364" duration="3048000" />
       <workItem from="1479381408082" duration="594000" />
       <workItem from="1479812580168" duration="1290000" />
-      <workItem from="1479909801296" duration="1670000" />
+      <workItem from="1479909801296" duration="1774000" />
     </task>
+    <task id="LOCAL-00001" summary="remove .idea">
+      <created>1479912748292</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1479912748292</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138090000" />
+    <option name="totallyTimeSpent" value="138194000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -599,6 +607,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="remove .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove .idea" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
